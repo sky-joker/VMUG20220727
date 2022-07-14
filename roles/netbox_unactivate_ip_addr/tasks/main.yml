@@ -1,0 +1,3 @@
+---
+- name: Include unactivate_ip_addr tasks
+  ansible.builtin.include_tasks: unactivate_ip_addr.yml

@@ -1,0 +1,30 @@
+---
+- name: Delete vm
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+    username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+    password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"  # noqa no-log-password
+    validate_certs: "{{ validate_certs | default(false) }}"
+    datacenter: "{{ datacenter_name }}"
+    folder: "{{ tenant_name }}"
+    template: "{{ template_name | default('') }}"
+    name: "{{ item.vm_name }}"
+    force: "{{ force | default(true) }}"
+    state: absent
+  vars:
+    ansible_async_dir: "/tmp/.ansible_async"
+  async: 300
+  poll: 0
+  register: delete_vm_result
+  loop: "{{ target_vm_info }}"
+
+- name: Make sure the tasks are until completion
+  ansible.builtin.async_status:
+    jid: "{{ item.ansible_job_id }}"
+  vars:
+    ansible_async_dir: "/tmp/.ansible_async"
+  register: job_result
+  until: job_result.finished
+  retries: 300
+  delay: 2
+  loop: "{{ delete_vm_result.results }}"

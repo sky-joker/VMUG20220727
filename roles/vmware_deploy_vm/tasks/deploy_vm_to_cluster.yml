@@ -1,0 +1,54 @@
+---
+- name: Set defualt module parameters
+  module_defaults:
+    community.vmware.vmware_guest:
+      hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+      username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+      password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"  # noqa no-log-password
+      validate_certs: "{{ validate_certs | default(false) }}"
+      datacenter: "{{ datacenter_name }}"
+      folder: "{{ tenant_name }}"
+      template: "{{ template_name | default('') }}"
+      hardware: "{{ flavor[vm_size] }}"
+      customization:
+        dns_servers: "{{ dns_ip_addrs }}"
+        password: "{{ set_os_password | default(omit) }}"
+      wait_for_customization: true
+      state: poweredon
+  block:
+    - name: Deploy a new vm to the specified cluster
+      community.vmware.vmware_guest:
+        cluster: "{{ cluster_name }}"
+        name: "{{ item.vm_name }}"
+        networks: "{{ item.networks }}"
+      vars:
+        ansible_async_dir: "/tmp/.ansible_async"
+      async: 6000
+      poll: 0
+      loop: "{{ target_vm_info }}"
+      register: deploy_vm_jobs
+
+    - name: Make sure the tasks are until completion
+      ansible.builtin.async_status:
+        jid: "{{ item.ansible_job_id }}"
+      vars:
+        ansible_async_dir: "/tmp/.ansible_async"
+      register: job_result
+      until: job_result.finished
+      retries: 600
+      delay: 10
+      loop: "{{ deploy_vm_jobs.results }}"
+
+    - name: Wait until starting vmware tools
+      community.vmware.vmware_guest_tools_info:
+        hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+        username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+        password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"  # noqa no-log-password
+        validate_certs: "{{ validate_certs | default(false) }}"
+        datacenter: "{{ datacenter_name }}"
+        name: "{{ item.vm_name }}"
+      register: get_vm_tools_info_result
+      until: get_vm_tools_info_result.vmtools_info.vm_tools_running_status == "guestToolsRunning"
+      retries: 300
+      delay: 10
+      loop: "{{ target_vm_info }}"

@@ -1,0 +1,25 @@
+---
+# Netbox
+# netbox_url: http://example.com
+# netbox_token:
+# tenant_name:
+# prefix: 192.168.20.0/24
+# gateway: 192.168.20.1/24
+
+# VMware
+# vcenter_hostname:
+# vcenter_username: administrator@vsphere.local
+# vcenter_password:
+# cluster_name:
+# esxi_hostname:
+# datacenter_name:
+# template_name:
+# dns_ip_addrs:
+#   - 192.168.20.1
+# password: The password does set to a guest
+# portgroup_name:
+# vm_size: 1cpu_2gmem
+
+# Other Params
+# count_number: 2
+# delete_ipaddr_regex: 192.168.20.[2-3]

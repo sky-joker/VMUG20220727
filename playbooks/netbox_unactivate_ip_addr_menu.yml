@@ -1,0 +1,6 @@
+---
+- name: NetBox UnActivate IP Address Menu
+  hosts: all
+  gather_facts: false
+  roles:
+    - netbox_unactivate_ip_addr

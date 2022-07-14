@@ -1,0 +1,60 @@
+---
+- name: Check whether the cluster exists
+  when:
+    - cluster_name is defined
+  block:
+    - name: Gather Cluster information
+      community.vmware.vmware_cluster_info:
+        hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+        username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+        password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"  # noqa no-log-password
+        validate_certs: "{{ validate_certs | default(false) }}"
+        datacenter: "{{ datacenter_name }}"
+      register: get_cluster_info_result
+
+    - name: If the cluster doesn't exist
+      fail:
+        msg: "{{ cluster_name }} not found."
+      when:
+        - "not cluster_name in get_cluster_info_result.clusters"
+
+- name: Check whether the esxi host exists
+  when:
+    - cluster_name is not defined
+    - esxi_hostname is defined
+  block:
+    - name: Gather ESXi information
+      community.vmware.vmware_host_facts:
+        hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+        username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+        password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"  # noqa no-log-password
+        validate_certs: "{{ validate_certs | default(false) }}"
+        esxi_hostname: "{{ esxi_hostname }}"
+      register: get_host_info_result
+
+- name: Ensure vm does exist
+  community.vmware.vmware_guest_info:
+    hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+    username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+    password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"  # noqa no-log-password
+    validate_certs: "{{ validate_certs | default(false) }}"
+    datacenter: "{{ datacenter_name }}"
+    folder: "{{ tenant_name }}"
+    name: "{{ item.vm_name }}"
+  vars:
+    ansible_async_dir: "/tmp/.ansible_async"
+  async: 300
+  poll: 0
+  register: vm_exist_result
+  loop: "{{ target_vm_info }}"
+
+- name: Make sure the tasks are until completion
+  ansible.builtin.async_status:
+    jid: "{{ item.ansible_job_id }}"
+  vars:
+    ansible_async_dir: "/tmp/.ansible_async"
+  register: job_result
+  until: job_result.finished
+  retries: 300
+  delay: 1
+  loop: "{{ vm_exist_result.results }}"

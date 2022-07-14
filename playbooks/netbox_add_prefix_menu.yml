@@ -1,0 +1,6 @@
+---
+- name: Netbox Add Prefix Menu
+  hosts: all
+  gather_facts: false
+  roles:
+    - netbox_prefixes

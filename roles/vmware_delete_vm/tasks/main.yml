@@ -1,0 +1,6 @@
+---
+- name: Include pre_check tasks
+  ansible.builtin.include_tasks: pre_check.yml
+
+- name: Include delete_vm tasks
+  ansible.builtin.include_tasks: delete_vm.yml

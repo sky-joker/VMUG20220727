@@ -1,0 +1,44 @@
+---
+- name: Check whether the cluster exists
+  when:
+    - cluster_name is defined
+  block:
+    - name: Gather Cluster information
+      community.vmware.vmware_cluster_info:
+        hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+        username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+        password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"
+        validate_certs: "{{ validate_certs | default(false) }}"
+        datacenter: "{{ datacenter_name }}"
+      register: get_cluster_info_result
+
+    - name: If the cluster doesn't exist
+      fail:
+        msg: "{{ cluster_name }} not found."
+      when:
+        - "not cluster_name in get_cluster_info_result.clusters"
+
+- name: Check whether the esxi host exists
+  when:
+    - cluster_name is not defined
+    - esxi_hostname is defined
+  block:
+    - name: Gather ESXi information
+      community.vmware.vmware_host_facts:
+        hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+        username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+        password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"
+        validate_certs: "{{ validate_certs | default(false) }}"
+        esxi_hostname: "{{ esxi_hostname }}"
+      register: get_host_info_result
+
+- name: Gather the vm template information
+  community.vmware.vmware_guest_info:
+    hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+    username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+    password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"
+    validate_certs: "{{ validate_certs | default(false) }}"
+    datacenter: "{{ datacenter_name }}"
+    name: "{{ template_name }}"
+
+# Might be nice to have the task for checking the port exists.

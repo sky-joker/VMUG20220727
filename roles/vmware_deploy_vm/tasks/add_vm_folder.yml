@@ -1,0 +1,11 @@
+---
+- name: Add vm folder
+  community.vmware.vcenter_folder:
+    hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+    username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+    password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"
+    validate_certs: "{{ validate_certs | default(false) }}"
+    datacenter: "{{ datacenter_name }}"
+    folder_name: "{{ tenant_name }}"
+    folder_type: vm
+    state: present

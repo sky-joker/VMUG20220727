@@ -1,0 +1,4 @@
+pyvmomi
+pynetbox
+netaddr
+jmespath

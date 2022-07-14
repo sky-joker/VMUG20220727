@@ -1,0 +1,8 @@
+---
+- name: Delete VM All Tasks
+  hosts: all
+  gather_facts: false
+  roles:
+    - vmware_gather_vm
+    - vmware_delete_vm
+    - netbox_unactivate_ip_addr

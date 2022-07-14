@@ -1,0 +1,20 @@
+---
+- name: Add a tenant
+  netbox.netbox.netbox_tenant:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data:
+      name: "{{ tenant_name }}"
+    state: "{{ state | default('present') }}"
+
+- name: Add a gateway
+  netbox.netbox.netbox_ip_address:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data:
+      tenant: "{{ tenant_name }}"
+      address: "{{ gateway | default(prefix | ansible.utils.next_nth_usable(1) + '/' + __prefix) }}"
+      description: Gateway
+    state: "{{ state | default('present') }}"
+  vars:
+    __prefix: "{{ prefix | ansible.utils.ipaddr('prefix') }}"

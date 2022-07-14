@@ -1,0 +1,5 @@
+---
+- name: Set the variable for giving to next job template in AAP
+  ansible.builtin.set_stats:
+    data:
+      target_vm_info: "{{ target_vm_info }}"

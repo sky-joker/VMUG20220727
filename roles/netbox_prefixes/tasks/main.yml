@@ -1,0 +1,6 @@
+---
+- name: Include netbox_tenant tasks
+  ansible.builtin.include_tasks: netbox_tenant.yml
+
+- name: Include netbox_prefixes tasks
+  ansible.builtin.include_tasks: netbox_prefixes.yml

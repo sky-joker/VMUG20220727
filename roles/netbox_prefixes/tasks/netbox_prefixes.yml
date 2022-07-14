@@ -1,0 +1,8 @@
+---
+- name: Add a prefix
+  netbox.netbox.netbox_prefix:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data:
+      tenant: "{{ tenant_name }}"
+      prefix: "{{ prefix }}"

@@ -1,0 +1,6 @@
+---
+- name: Gather Virtual Machines Menu
+  hosts: all
+  gather_facts: false
+  roles:
+    - vmware_gather_vm

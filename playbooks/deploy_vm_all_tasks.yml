@@ -1,0 +1,7 @@
+---
+- name: Deploy VM All Tasks
+  hosts: all
+  gather_facts: false
+  roles:
+    - netbox_activate_ip_addr
+    - vmware_deploy_vm

@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  role_name: netbox_activate_ip_addr
+  namespace: sky_joker
+  author: sky-joker
+  description: The role does activate the IP address status that NetBox manages
+  license: MIT
+  min_ansible_version: 2.12.1
+  platforms:
+    - name: RHEL
+      versions:
+        - 8
+  galaxy_tags:
+    - netbox

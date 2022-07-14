@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  role_name: vmware_delete_vm
+  namespace: sky_joker
+  author: sky-joker
+  description: The role does deploy a new virtual machine
+  license: MIT
+  min_ansible_version: 2.12.1
+  platforms:
+    - name: RHEL
+      versions:
+        - 8
+  galaxy_tags:
+    - vmware

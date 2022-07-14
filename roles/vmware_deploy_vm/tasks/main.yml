@@ -1,0 +1,18 @@
+---
+- name: Include pre_check tasks
+  include_tasks: pre_check.yml
+
+- name: Include add_vm_folder tasks
+  include_tasks: add_vm_folder.yml
+
+- name: Include deploy_vm_to_esxi tasks
+  include_tasks: deploy_vm_to_esxi.yml
+  when:
+    - cluster_name is not defined
+    - esxi_hostname is defined
+
+- name: Include deploy_vm_to_cluster tasks
+  include_tasks: deploy_vm_to_cluster.yml
+  when:
+    - cluster_name is defined
+    - esxi_hostname is not defined

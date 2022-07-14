@@ -1,0 +1,25 @@
+---
+argument_specs:
+  main:
+    short_description: "The variables are used in running the role"
+    options:
+      netbox_url:
+        type: str
+        required: true
+        description: "Netbox URL for connection"
+      netbox_token:
+        type: str
+        required: true
+        description: "Token required for connection"
+      tenant_name:
+        type: str
+        required: true
+        description: "Tenant name for Netbox"
+      prefix:
+        type: str
+        required: true
+        description: "Prefix for IP Address"
+      gateway:
+        type: str
+        required: false
+        description: "Gateway for network"

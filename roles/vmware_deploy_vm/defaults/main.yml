@@ -1,0 +1,36 @@
+---
+flavor:
+  1cpu_2gmem:
+    num_cpus: 1
+    num_cpu_cores_per_socket: 1
+    memory_mb: "{{ 2 * 1024 }}"
+
+  1cpu_4gmem:
+    num_cpus: 1
+    num_cpu_cores_per_socket: 1
+    memory_mb: "{{ 4 * 1024 }}"
+
+  2cpu_2gmem:
+    num_cpus: 2
+    num_cpu_cores_per_socket: 1
+    memory_mb: "{{ 2 * 1024 }}"
+
+  2cpu_4gmem:
+    num_cpus: 2
+    num_cpu_cores_per_socket: 1
+    memory_mb: "{{ 4 * 1024 }}"
+
+  2cpu_8gmem:
+    num_cpus: 2
+    num_cpu_cores_per_socket: 1
+    memory_mb: "{{ 8 * 1024 }}"
+
+  4cpu_4gmem:
+    num_cpus: 4
+    num_cpu_cores_per_socket: 1
+    memory_mb: "{{ 4 * 1024 }}"
+
+  4cpu_8gmem:
+    num_cpus: 4
+    num_cpu_cores_per_socket: 1
+    memory_mb: "{{ 8 * 1024 }}"

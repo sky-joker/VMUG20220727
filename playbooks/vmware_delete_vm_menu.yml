@@ -1,0 +1,6 @@
+---
+- name: VMware Delete VM Menu
+  hosts: all
+  gather_facts: false
+  roles:
+    - vmware_delete_vm

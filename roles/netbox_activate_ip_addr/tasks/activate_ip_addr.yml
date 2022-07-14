@@ -1,0 +1,72 @@
+---
+- name: Set prefix_id variable for gathering available ips
+  ansible.builtin.set_fact:
+    prefix_id: "{{ item.key }}"
+  loop: >-
+    {{ query('netbox.netbox.nb_lookup',
+             'prefixes',
+             api_endpoint=netbox_url,
+             token=netbox_token,
+             api_filter='tenant=%s prefix=%s' % (tenant_name, target_prefix)
+       )
+    }}
+
+- name: Set default_gateway variable
+  ansible.builtin.set_fact:
+    default_gateway: >-
+      {{ ( query('netbox.netbox.nb_lookup',
+               'ip-addresses',
+               api_endpoint=netbox_url,
+               token=netbox_token,
+               api_filter='tenant=%s prefix=%s description=%s' % (tenant_name, target_prefix, 'Gateway')
+           )
+           | first
+         ).value.address
+         | ansible.utils.ipaddr('address')
+      }}
+
+- name: Gather available ips info from NetBox
+  ansible.builtin.uri:
+    url: "{{ netbox_url }}/api/ipam/prefixes/{{ prefix_id }}/available-ips/"
+    validate_certs: "{{ validate_certs | default('false') }}"
+    headers:
+      Authorization: "Token {{ netbox_token }}"
+      Accept: "application/json"
+  register: gather_available_ips_result
+
+- name: Make sure whether an available IP address does exists
+  ansible.builtin.fail:
+    msg: "Available IP address not found"
+  when: gather_available_ips_result.json | length == 0
+
+- name: Set target_vm_info variable
+  ansible.builtin.set_fact:
+    target_vm_info: >-
+      {{ target_vm_info | default([])
+        + [{
+            "vm_name": tenant_name + '-' + (ipaddr | replace('.', '')),
+            "networks": [{
+              "name": portgroup_name,
+              "ip": ipaddr,
+              "netmask": netmask,
+              "gateway": default_gateway
+            }]
+          }]
+      }}
+  vars:
+    ipaddr: "{{ item.address | ansible.utils.ipaddr('address') }}"
+    netmask: "{{ item.address | ansible.utils.ipaddr('netmask') }}"
+  loop: "{{ gather_available_ips_result.json[0:count_number] }}"
+
+- name: Add IP addresses to the tenant prefix
+  netbox.netbox.netbox_ip_address:
+    netbox_url: "{{ netbox_url }}"
+    validate_certs: "{{ validate_certs | default('false') }}"
+    netbox_token: "{{ netbox_token }}"
+    data:
+      address: "{{ item.1.ip + '/' + item.1.netmask }}"
+      family: "{{ ip_family | default(4) }}"
+      tenant: "{{ tenant_name }}"
+      dns_name: "{{ item.0.vm_name }}"
+      status: Active
+  loop: "{{ target_vm_info | subelements('networks') }}"
