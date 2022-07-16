@@ -5,7 +5,6 @@
     netbox_token: "{{ netbox_token }}"
     data:
       name: "{{ item.vm_name }}"
-      cluster: "{{ cluster_name }}"
       tenant: "{{ tenant_name }}"
     state: absent
   loop: "{{ target_vm_info }}"
