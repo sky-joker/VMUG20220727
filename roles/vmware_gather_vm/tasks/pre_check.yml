@@ -1,0 +1,26 @@
+---
+- name: Gather the folder information
+  community.vmware.vmware_folder_info:
+    hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+    username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+    password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"
+    validate_certs: "{{ validate_certs | default(false) }}"
+    datacenter: "{{ datacenter_name }}"
+  register: get_folder_info_result
+
+- name: Set the folder_path variable for all full path of folder
+  ansible.builtin.set_fact:
+    folder_path: >-
+      {{ folder_path | default([])
+        + [get_folder_info_result.folder_info.vmFolders.subfolders | community.general.json_query(item)]
+        | flatten
+      }}
+  loop:
+    - '*.path'
+    - '*.subfolders.*.path'
+
+- name: If the folder doesn't exist
+  ansible.builtin.fail:
+    msg: "{{ tenant_name }} not found."
+  when:
+    - folder_path | map('regex_search', tenant_name + '$') | select('string') | list | length == 0

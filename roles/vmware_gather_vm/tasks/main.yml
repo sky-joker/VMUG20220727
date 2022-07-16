@@ -1,0 +1,9 @@
+---
+- name: Include pre_check tasks
+  ansible.builtin.include_tasks: pre_check.yml
+
+- name: Include gather_vm tasks
+  ansible.builtin.include_tasks: gather_vm.yml
+
+- name: Include set_aap_jobtemplate_variable tasks
+  ansible.builtin.include_tasks: set_aap_jobtemplate_variable.yml

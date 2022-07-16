@@ -1,0 +1,5 @@
+---
+- name: Set variables to publish between tasks
+  ansible.builtin.set_stats:
+    data:
+      target_vm_info: "{{ target_vm_info }}"

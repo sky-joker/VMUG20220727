@@ -1,0 +1,38 @@
+---
+- name: Gather virtual machines
+  community.vmware.vmware_vm_info:
+    hostname: "{{ vcenter_hostname | default(lookup('env', 'VMWARE_HOST')) }}"
+    username: "{{ vcenter_username | default(lookup('env', 'VMWARE_USER')) }}"
+    password: "{{ vcenter_password | default(lookup('env', 'VMWARE_PASSWORD')) }}"
+    validate_certs: "{{ validate_certs | default(false) }}"
+    folder: "{{ '/' + datacenter_name + '/vm/' + tenant_name }}"
+  register: gather_vm_result
+
+- name: Set target_vm_info variable
+  ansible.builtin.set_fact:
+    target_vm_info: >-
+      {{ target_vm_info | default([])
+        + [
+            {
+              "vm_name": guest_name,
+              "guest_fullname": item.guest_fullname,
+              "networks": [
+                {
+                  "ip": item.ip_address
+                }
+              ]
+            }
+          ]
+      }}
+  vars:
+    delete_ipaddr: "{{ delete_ipaddr_regex.split('.') | join('') }}"
+    guest_name: "{{ item.guest_name | regex_search('%s.*%s.*' % (tenant_name, delete_ipaddr)) }}"
+  loop: "{{ gather_vm_result.virtual_machines }}"
+  when:
+    - guest_name
+
+- name: If the folder doesn't exist
+  ansible.builtin.fail:
+    msg: "vm not found"
+  when:
+    - target_vm_info is undefined
