@@ -1,7 +1,7 @@
 ---
 - when:
     - state is not defined or
-      state is 'present'
+      state == 'present'
   block:
     - name: Include netbox_add_virtual_machine tasks
       ansible.builtin.include_tasks: netbox_add_virtual_machine.yml
@@ -10,7 +10,7 @@
       ansible.builtin.include_tasks: netbox_assign_vm.yml
 
 - when:
-    - state is 'absent'
+    - state == 'absent'
   block:
     - name: Include netbox_del_virtual_machine tasks
       ansible.builtin.include_tasks: netbox_del_virtual_machine.yml
