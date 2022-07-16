@@ -1,6 +1,6 @@
 ---
 - when:
-    - state is undefined or
+    - state is not defined or
       state is 'present'
   block:
     - name: Include netbox_add_virtual_machine tasks
