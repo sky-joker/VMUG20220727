@@ -9,3 +9,8 @@ ansible_config: 'config_for_ee/ansible.cfg'
 dependencies:
   galaxy: collections/requirements.yml
   python: requirements.txt
+
+additional_build_steps:
+  append:
+    - ENV ANSIBLE_CONFIG /etc/ansible/ansible.cfg
+    - COPY _build/ansible.cfg /etc/ansible/ansible.cfg
