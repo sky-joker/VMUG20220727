@@ -22,5 +22,5 @@
       tenant: "{{ tenant_name }}"
       primary_ip4: "{{ item.1.ip + '/' + __prefix }}"
   vars:
-    __prefix: "{{ prefix | ansible.utils.ipaddr('prefix') }}"
+    __prefix: "{{ item.1.ip + '/' + item.1.netmask | ansible.utils.ipaddr('prefix') }}"
   loop: "{{ target_vm_info | subelements('networks') }}"

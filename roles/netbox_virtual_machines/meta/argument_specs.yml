@@ -15,8 +15,3 @@ argument_specs:
         type: str
         required: true
         description: "Tenant name for Netbox"
-      prefix:
-        type: str
-        required: true
-        description: "Prefix for IP Address"
-
