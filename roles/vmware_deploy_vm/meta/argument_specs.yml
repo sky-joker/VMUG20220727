@@ -22,5 +22,5 @@ argument_specs:
       dns_ip_addrs:
         type: list
         elements: str
-        required: true
+        required: false
         description: "The dns servers to set into vm"
