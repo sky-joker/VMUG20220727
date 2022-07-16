@@ -1,0 +1,6 @@
+---
+- name: Include netbox_add_virtual_machine tasks
+  ansible.builtin.include_tasks: netbox_add_virtual_machine.yml
+
+- name: Include netbox_assign_vm tasks
+  ansible.builtin.include_tasks: netbox_assign_vm.yml

@@ -1,9 +1,9 @@
 ---
 galaxy_info:
-  role_name: netbox_prefixes
+  role_name: netbox_virtual_machines
   namespace: sky_joker
   author: sky-joker
-  description: The role does create a new prefix
+  description: The role does create a new virtual machine
   license: MIT
   min_ansible_version: 2.12.1
   platforms:

@@ -1,0 +1,19 @@
+---
+- name: Add a virtual machine to NetBox
+  netbox.netbox.netbox_virtual_machine:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data:
+      name: "{{ item.vm_name }}"
+      cluster: "{{ cluster_name }}"
+      tenant: "{{ tenant_name }}"
+  loop: "{{ target_vm_info }}"
+
+- name: Add an interface to the virtual machine
+  netbox.netbox.netbox_vm_interface:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data:
+      virtual_machine: "{{ item.vm_name }}"
+      name: "Network Adapter 1"
+  loop: "{{ target_vm_info }}"
