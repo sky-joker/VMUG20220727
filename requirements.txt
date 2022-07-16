@@ -1,4 +1,4 @@
-pyvmomi
+pyvmomi>=6.7
 pynetbox
 netaddr
 jmespath
