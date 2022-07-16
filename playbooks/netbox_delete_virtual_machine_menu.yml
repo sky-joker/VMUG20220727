@@ -1,0 +1,8 @@
+---
+- name: NetBox Delete Virtual Machines Menu
+  hosts: all
+  gather_facts: false
+  vars:
+    state: absent
+  roles:
+    - netbox_virtual_machines
