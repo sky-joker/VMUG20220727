@@ -12,6 +12,7 @@ https://my.vmug.com/s/community-event?id=a1Y4x0000002H8cEAE
 * gitコマンドがインストールされている
 * NetBox環境が構築されている
     * Cluster TypesとClustersが登録されている
+        * Clustersに登録するクラスタ名はvSphere環境にあるClusterと同じにする必要があります
     * APIで操作できるTokenが生成されている
 
 ## 使い方
