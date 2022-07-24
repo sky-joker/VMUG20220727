@@ -32,8 +32,8 @@ $ . venv/bin/activate
 本リポジトリを取得します。
 
 ```
-$ git clone https://github.com/sky-joker/VMUG20220727.git
-$ cd VMUG20220727
+(venv)$ git clone https://github.com/sky-joker/VMUG20220727.git
+(venv)$ cd VMUG20220727
 ```
 
 ### パラメーター設定
@@ -41,7 +41,7 @@ $ cd VMUG20220727
 以下のファイルのパラメーターを各自の環境に合わせた内容に修正してください。
 
 ```
-$ vi inventories/group_vars/all.yml
+(venv)$ vi inventories/group_vars/all.yml
 ```
 
 |         項目        |  型  |              例               |                                                           説明                                                           |
@@ -100,7 +100,7 @@ $ vi inventories/group_vars/all.yml
 以下のコマンドを実行します。
 
 ```
-$ ansible-playbook playbooks/netbox_add_prefix_menu.yml -i inventories/inventory
+(venv)$ ansible-playbook playbooks/netbox_add_prefix_menu.yml -i inventories/inventory
 ```
 
 #### VMデプロイ
@@ -108,7 +108,7 @@ $ ansible-playbook playbooks/netbox_add_prefix_menu.yml -i inventories/inventory
 以下のコマンドを実行します。
 
 ```
-$ ansible-playbook playbooks/deploy_vm_all_tasks.yml -i inventories/inventory
+(venv)$ ansible-playbook playbooks/deploy_vm_all_tasks.yml -i inventories/inventory
 ```
 
 #### VM削除
@@ -116,5 +116,5 @@ $ ansible-playbook playbooks/deploy_vm_all_tasks.yml -i inventories/inventory
 以下のコマンドを実行します。
 
 ```
-$ ansible-playbook playbooks/delete_vm_all_tasks.yml -i inventories/inventory
+(venv)$ ansible-playbook playbooks/delete_vm_all_tasks.yml -i inventories/inventory
 ```
