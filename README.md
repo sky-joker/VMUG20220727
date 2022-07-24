@@ -4,6 +4,10 @@
 
 https://my.vmug.com/s/community-event?id=a1Y4x0000002H8cEAE
 
+## デモ環境
+
+* VCSA 7.0.0.10400
+
 ## 前提条件
 
 ここでは、コマンドラインでの使い方について説明します。
@@ -34,6 +38,15 @@ $ . venv/bin/activate
 ```
 (venv)$ git clone https://github.com/sky-joker/VMUG20220727.git
 (venv)$ cd VMUG20220727
+```
+
+### 必要なライブラリなどをインストール
+
+以下のコマンドを実行して必要なライブラリやCollectionsをインストールします。
+
+```
+(venv)$ pip install -r requirements.txt
+(venv)$ ansible-galaxy collection install -r collections/requirements.yml -p collections
 ```
 
 ### パラメーター設定

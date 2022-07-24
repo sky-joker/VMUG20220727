@@ -1,3 +1,4 @@
+ansible-core==2.12.7
 pyvmomi>=6.7
 pynetbox
 netaddr
