@@ -57,26 +57,26 @@ $ . venv/bin/activate
 (venv)$ vi inventories/group_vars/all.yml
 ```
 
-|         項目        |  型  |              例               |                                                           説明                                                           |
-|---------------------|------|-------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| netbox_url          | str  | `http://netbox.local`         | アクセスするNetBoxのURL                                                                                                  |
-| netbox_token        | str  | 7182c49xxxxxxxxxxxxx          | NetBoxを操作するためのToken                                                                                              |
-| tenant_name         | str  | example                       | 作成するテナント名                                                                                                       |
-| prefix              | str  | 192.168.20.0/24               | NetBoxに作成するPrefix                                                                                                   |
-| gateway             | str  | 192.168.20.1/24               | 作成したPrefixに設定するデフォルトゲートウェイ                                                                           |
-| vcenter_hostname    | str  | test-vcenter.local            | アクセスするvCenter Serverのホスト名                                                                                     |
-| vcenter_username    | str  | `administrator@vsphere.local` | 操作するvCenter Serverのアカウント名                                                                                     |
-| vcenter_password    | str  | password                      | vCenter Serverアカウントのパスワード                                                                                     |
-| cluster_name        | str  | Cluster                       | VMをデプロイする先のクラスタ名(esxi_hostnameと一緒に使用できない)                                                        |
-| esxi_hostname       | str  | esxi-01.local                 | VMをデプロイする先のESXiホスト名(cluster_nameと一緒に使用できない)                                                       |
-| datacenter_name     | str  | DC                            | VMをデプロイする先のデータセンター名                                                                                     |
-| template_name       | str  | RHEL8.5TMP                    | 複製するテンプレート名                                                                                                   |
-| dns_ip_addrs        | list |                               | 新規作成するVMに設定するDNS                                                                                              |
-| password            | str  | password                      | 新規作成するVMに設定するrootのパスワード                                                                                 |
-| portgroup_name      | str  | pg01                          | 新規作成するVMに接続するポートグループ名                                                                                 |
-| vm_size             | str  | 1cpu_2gmem                    | 新規作成するVMのサイズ                                                                                                   |
-| count_number        | int  | 1                             | 新規に作成するVM数、[詳細](https://github.com/sky-joker/VMUG20220727/blob/main/roles/vmware_deploy_vm/defaults/main.yml) |
-| delete_ipaddr_regex | str  | 192.168.20.[1-5]              | 削除するVMのIPアドレス（正規表現可）                                                                                     |
+|         項目        |  型  |              例               |                                                             説明                                                             |
+|---------------------|------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| netbox_url          | str  | `http://netbox.local`         | アクセスするNetBoxのURL                                                                                                      |
+| netbox_token        | str  | 7182c49xxxxxxxxxxxxx          | NetBoxを操作するためのToken                                                                                                  |
+| tenant_name         | str  | example                       | 作成するテナント名                                                                                                           |
+| prefix              | str  | 192.168.20.0/24               | NetBoxに作成するPrefix                                                                                                       |
+| gateway             | str  | 192.168.20.1/24               | 作成したPrefixに設定するデフォルトゲートウェイ                                                                               |
+| vcenter_hostname    | str  | test-vcenter.local            | アクセスするvCenter Serverのホスト名                                                                                         |
+| vcenter_username    | str  | `administrator@vsphere.local` | 操作するvCenter Serverのアカウント名                                                                                         |
+| vcenter_password    | str  | password                      | vCenter Serverアカウントのパスワード                                                                                         |
+| cluster_name        | str  | Cluster                       | VMをデプロイする先のクラスタ名(esxi_hostnameと一緒に使用できない)                                                            |
+| esxi_hostname       | str  | esxi-01.local                 | VMをデプロイする先のESXiホスト名(cluster_nameと一緒に使用できない)                                                           |
+| datacenter_name     | str  | DC                            | VMをデプロイする先のデータセンター名                                                                                         |
+| template_name       | str  | RHEL8.5TMP                    | 複製するテンプレート名                                                                                                       |
+| dns_ip_addrs        | list |                               | 新規作成するVMに設定するDNS                                                                                                  |
+| password            | str  | password                      | 新規作成するVMに設定するrootのパスワード                                                                                     |
+| portgroup_name      | str  | pg01                          | 新規作成するVMに接続するポートグループ名                                                                                     |
+| vm_size             | str  | 1cpu_2gmem                    | 新規作成するVMのサイズ、[詳細](https://github.com/sky-joker/VMUG20220727/blob/main/roles/vmware_deploy_vm/defaults/main.yml) |
+| count_number        | int  | 1                             | 新規に作成するVM数                                                                                                           |
+| delete_ipaddr_regex | str  | 192.168.20.[1-5]              | 削除するVMのIPアドレス（正規表現可）                                                                                         |
 
 ```yaml
 ---
