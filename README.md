@@ -6,7 +6,7 @@ https://my.vmug.com/s/community-event?id=a1Y4x0000002H8cEAE
 
 ## 資料
 
-[![image](https://user-images.githubusercontent.com/19516126/181241797-7e69fe79-ce96-413e-bdc2-dd735401c52f.png)](https://speakerdeck.com/sky_joker/netboxtoansiblewoshi-tutevspherehuan-jing-falseguan-li-zuo-ye-falsezi-dong-hua-wositemiyou#transcript)
+[![image](https://user-images.githubusercontent.com/19516126/181241797-7e69fe79-ce96-413e-bdc2-dd735401c52f.png)](https://speakerdeck.com/sky_joker/netboxtoansiblewoshi-tutevspherehuan-jing-falseguan-li-zuo-ye-falsezi-dong-hua-wositemiyou)
 
 ## デモ環境
 
